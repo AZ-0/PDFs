@@ -1,4 +1,4 @@
 # PDFs
 Some PDFs about maths and cryptography
 
-The Goldwasser-Micali one is pretty bad, will refactor it soon™️.
+The Goldwasser-Micali one is very bad, will refactor it soon™️.
