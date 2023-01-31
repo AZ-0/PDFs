@@ -38,6 +38,12 @@ En annexe, il est montré que si $d$ est un entier possédant un facteur carré,
 Donne quelques rappels sur les groupes topologiques et introduit les groupes profinis.
 La dernière section démontre que si $G$ est un groupe, $(H_i)_{k\in\mathbb N}$ est une chaîne descendante de sous-groupes normaux vérifiant $\bigcap_{\mathbb N} H_i = 1$, alors la limite $L=\varprojlim G/H_i$ coïncide avec la complétion $\tilde G$ de $G$ par les suites de Cauchy, où $G$ est muni de la topologie induite par les cosets des $H_i$.
 
+### Modules injectifs
+
+[En cours d'écriture]
+
+Introduit les modules injectifs et divisibles, et montre quelques résultats sympathiques (notamment la correspondance entre quotients et sous-modules pour $M$ finiment généré de torsion sur un PID $R$, en utilisant la dualité de Pontryagin).
+
 ### Neukirch notes
 
 Notes de lecture du livre *Algebraic Number Theory* de Jürgen Neukirch.
