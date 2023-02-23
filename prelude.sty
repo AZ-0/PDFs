@@ -1,0 +1,221 @@
+\ProvidesPackage{prelude}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% IMPORTS %%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[utf8]{inputenc}     % good encoding
+\usepackage{xcolor}             % color definitions
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[backend=biber,style=alphabetic]{biblatex} % citations
+\usepackage{hyperref}           % refs
+\usepackage{titlesec}           % titles
+\usepackage[titles]{tocloft}    % titles
+\usepackage{sectsty}            % ???
+\usepackage{geometry}           % margins
+\usepackage{tikz-cd}            % diagrams
+\usepackage{enumitem}           % managing enumerations
+\usepackage{xparse}             % better commands
+\usepackage{stmaryrd}           % ll/rr brackets
+\usepackage[framemethod=tikz]{mdframed} % frames (props, thms, ...)
+
+% Margins
+\geometry{hmargin=1.5cm,vmargin=1.5cm}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% CUSTOM COMMANDS %%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\textdef}[1]{\textbf{\textit{#1}}}
+
+\NewDocumentCommand{\abs}{o O{\cdot}}{\left|#2\right|\IfValueT{#1}{_{#1}}}
+\newcommand{\infabs}[1][\cdot]{\abs[\infty][#1]}
+\newcommand{\floor}[1]{\left\lfloor{#1}\right\rfloor}
+\NewDocumentCommand{\qty}{m o}{\left\{#1\IfValueT{#2}{\,\middle|\,#2}\right\}}
+
+\NewDocumentCommand{\coords}{O{1} m O{n} O{,}}{\left(#2_#1#4 \ldots#4 #2_#3\right)}
+\NewDocumentCommand{\projcoords}{O{1} m O{n}}{\coords[#1]{#2}[#3][:]}
+
+\newcommand{\MatNxN}[1][\lambda]{\begin{pmatrix}
+    #1_{1, 1} &\cdots &#1_{1,n} \\
+    \vdots    &\ddots &\vdots \\
+    #1_{n, 1} &\cdots &#1_{n, n}
+\end{pmatrix}}
+
+\newcommand{\Nm}{\cN}
+\newcommand{\Zmod}[1]{\bZ/#1\bZ}
+\newcommand{\Qbar}{\overline\bQ}
+\newcommand{\adh}[1]{\overline{#1}}
+
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Env}{Env}
+\DeclareMathOperator{\Frac}{Frac}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\adj}{adj}
+\DeclareMathOperator{\hgt}{ht}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\rk}{rg}
+\DeclareMathOperator{\trdeg}{trdeg}
+\DeclareMathOperator{\vol}{vol}
+
+\newcommand{\fk}[1]{\mathfrak{#1}}
+\newcommand{\fa}{\fk a}
+\newcommand{\fp}{\fk p}
+\newcommand{\fq}{\fk q}
+\newcommand{\fm}{\fk m}
+
+\newcommand{\bA}{\mathbb{A}}
+\newcommand{\bC}{\mathbb{C}}
+\newcommand{\bF}{\mathbb{F}}
+\newcommand{\bN}{\mathbb{N}}
+\newcommand{\bP}{\mathbb{P}}
+\newcommand{\bQ}{\mathbb{Q}}
+\newcommand{\bR}{\mathbb{R}}
+\newcommand{\bZ}{\mathbb{Z}}
+
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\cD}{\mathcal{D}}
+\newcommand{\cH}{\mathcal{H}}
+\newcommand{\cN}{\mathcal{N}}
+\newcommand{\cO}{\mathcal{O}}
+\newcommand{\cP}{\mathcal{P}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% COLORS %%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{aqua}{rgb}{0.0,0.6,0.7}
+\definecolor{ltgreen}{rgb}{0.0,0.8,0.7}
+\definecolor{ltblue}{rgb}{0.0,0.2,0.7}
+\definecolor{ocre}{RGB}{0, 113, 188}
+\definecolor{dkgreen}{RGB}{113, 188, 113}
+\definecolor{coral}{RGB}{233, 137, 128}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% THM ENVS %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% Styles
+\mdfdefinestyle{theorem}{
+    roundcorner=2pt,
+    linewidth=3pt,
+    innertopmargin=0pt,
+    innerbottommargin=5pt,
+    nobreak=true,
+}
+
+\mdfdefinestyle{prop}{
+    hidealllines=true,
+    leftline=true,
+    innertopmargin=0pt,
+    linewidth=3pt,
+}
+
+\newtheoremstyle{plain*}{\topsep}{\topsep}{\itshape}{0pt}{}{.}{5pt plus 1pt minus 1pt}{{\bfseries\thmname{#1}}\ifstrempty{#3}{}{ (\thmnote{#3})}}
+
+\newtheoremstyle{definition*}{\topsep}{\topsep}{}{0pt}{}{.}{3pt plus 1pt minus 1pt}{{\bfseries\thmname{#1}}\ifstrempty{#3}{}{ (\thmnote{#3})}}
+
+%%%%%%%%%% Abstract Commands
+\newcommand\propenvmaker[4]{
+    \theoremstyle{#1}
+    \newmdtheoremenv[
+        style=prop,
+        linecolor=#2,
+    ]{#3}{#4}[section]
+}
+
+\newcommand\thmenvmaker[5]{
+    \theoremstyle{#1}
+    \newmdtheoremenv[
+        style=theorem,
+        linecolor=#2,
+        backgroundcolor=#3
+    ]{#4}{#5}[section]
+}
+
+\newcommand{\newpropenv}[4][definition]{
+    \propenvmaker{#1}{#2}{#3}{#4}
+    \propenvmaker{#1*}{#2}{#3*}{#4}
+}
+
+\newcommand{\newthmenv}[5][plain]{
+    \thmenvmaker{#1}{#2}{#3}{#4}{#5}
+    \thmenvmaker{#1*}{#2}{#3}{#4*}{#5}
+}
+
+%%%%%%%%%% Property-like
+\newpropenv[plain]{ocre}{proposition}{Proposition}
+\newpropenv[plain]{aqua}{lemme}{Lemme}
+\newpropenv[plain]{ltgreen}{corollaire}{Corollaire}
+
+\newpropenv{dkgreen}{exemple}{Exemple}
+\newpropenv{dkgreen}{remarque}{Remarque}
+\newpropenv{ltblue}{exercice}{Exercice}
+
+%%%%%%%%%% Theorem-like
+\newthmenv{ocre}{blue!5}{theoreme}{Théorème}
+\newthmenv{coral}{red!5}{definition}{Définition}
+
+%%%%%%%%%% Proof-like
+\newenvironment{preuve}{\noindent\textcolor{ocre}{\textit{\textsf{Preuve.}}}}{\qed\medskip}
+\newenvironment{preuve*}{\noindent\textcolor{ocre}{\textit{\textsf{Preuve.}}}}{\medskip}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% MISC %%%%%%%%%%%%%%%%%%%%%%%%%%
+% Changes default font
+% \renewcommand\familydefault{\sfdefault}
+
+% Makes every math displayed in display style 
+% \everymath{\displaystyle}
+
+% Alineas at the beginning of a new paragraph 
+\setlength{\parindent}{0.4cm}
+
+% Formates links
+\hypersetup{
+    colorlinks,
+    citecolor=ocre,
+    filecolor=ocre,
+    linkcolor=ocre,
+    urlcolor=ocre
+}
+
+
+%%%%%%%%%%%% Table of contents %%%%%%%%%%%%
+
+% Change TOC name
+\renewcommand{\contentsname}{Table des matières}
+
+% Changes chapter formatting in the table of contents
+\renewcommand{\cftchapfont}{\LARGE\bfseries\hypersetup{linkcolor=black}}
+\renewcommand{\cftchappagefont}{\LARGE\bfseries\color{black}}
+\renewcommand{\cftchapleader}{\LARGE\bfseries\color{black}\cftdotfill{\cftsecdotsep}}
+\renewcommand{\cftchapdotsep}{6}
+\renewcommand{\cftchapafterpnum}{\vskip10pt}
+
+% Changes section formatting in the table of contents
+\renewcommand{\cftsecfont}{\Large\bfseries\hypersetup{linkcolor=black}}
+\renewcommand{\cftsecpagefont}{\Large\bfseries}
+\renewcommand{\cftsecleader}{\hfill}
+\renewcommand{\cftsecdotsep}{6}
+\renewcommand{\cftsecafterpnum}{\vskip10pt}
+
+% Changes subsection formatting in the table of contents
+\renewcommand{\cftsubsecafterpnum}{\vskip10pt}
+\renewcommand{\cftsubsecfont}{\large}
+\renewcommand{\cftsubsecpagefont}{\large}
+
+% Changes subsection formatting in the table of contents
+\renewcommand{\cftsubsubsecafterpnum}{\vskip10pt}
+\renewcommand{\cftsubsubsecfont}{\medium}
+\renewcommand{\cftsubsubsecpagefont}{\medium}
+
+% Avoids indentations in the TOC
+% \setlength{\cftsecindent}{0pt}
+\setlength{\cftsubsecindent}{0pt}
+\setlength{\cftsubsubsecindent}{5pt}
+
+%%%%%%%%%%%% Chapter, section.. formating %%%%%%%%%%%%
+\chapterfont{\color{black}}
+
+% Changes chapter's title format
+\titleformat{\chapter}[display]{\normalfont\bfseries}{\fontsize{20}{10}\bfseries Chapitre \thechapter.}{5pt}{\centering\fontsize{20}{10}\bfseries}
+
+% Avoids page breaks after chapter
+\patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{}{}{}
