@@ -1,14 +1,12 @@
 # PDFs
-Quelques PDFs de maths ou de cryptographie.
+
+Quelques notes de maths ou de cryptographie.
 
 ### CRT
+
 Mon tout premier pdf!
 Donne deux preuves du théorème des restes chinois, une algébrique et une élémentaire.
 Décrit deux applications de ce théorème (une formule pour l'indicatrice d'Euler, et les attaques par morphisme).
-
-### Goldwasser Micali
-Très mauvais pdf, eg. ne contient pas de preuves.
-Présentation du cryptosystème de Goldwasser-Micali, exemple d'attaque quand les nonces sont biaisés.
 
 ### Quotients et Sommandes
 
@@ -19,13 +17,11 @@ La seconde introduit le langage des suites exactes puis donne une preuve du lemm
 Finalement, la dernière définit un module libre, montre qu'il sépare toute suite exacte courte dont il est le quotient, et utilise cette propriété pour motiver la définition de module projectif.
 Deux caractérisations de la projectivité sont données, puis le document termine par la liberté des sous-modules d'un module libre sur un PID.
 
-Très clairement le meilleur pdf jusqu'à présent.
-
 ### Pell-Fermat
 
-Exposé pour l'uni; détermine la structure de groupe des solutions entières à l'équation de Pell-Fermat (PF) $x^2 - dy^2 = 1$.
+Exposé pour l'université; détermine la structure de groupe des solutions entières à l'équation de Pell-Fermat (PF) $x^2 - dy^2 = 1$.
 Un point de vue géométrique est tout d'abord abordé, montrant que toute conique non-vide irréductible sur un corps algébriquement clos est rationnelle; on obtient les triplets pythagoriciens ainsi qu'une paramétrisation rationnelle des solutions sur $\mathbb Q$ de PF.
-On motive "géométriquement" l'introduction de $\mathbb Z[\sqrt d]$ pour étudier PF.
+On motive géométriquement l'introduction de $\mathbb Z[\sqrt d]$ pour étudier PF.
 
 La norme d'un élément est introduite, et on étudie un peu $\mathbb Z[\sqrt d]$ de manière théorique.
 L'existence d'une solution entière non-triviale est démontrée, puis l'existence d'une solution $\gamma$ minimale en un certain sens.
