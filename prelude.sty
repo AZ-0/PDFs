@@ -4,17 +4,19 @@
 \usepackage[utf8]{inputenc}     % good encoding
 \usepackage{xcolor}             % color definitions
 \usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}          % typesetting in mathmode
 \usepackage[backend=biber,style=alphabetic]{biblatex} % citations
 \usepackage{hyperref}           % refs
 \usepackage{titlesec}           % titles
 \usepackage[titles]{tocloft}    % titles
-\usepackage{sectsty}            % ???
+\usepackage{sectsty}            % sections
 \usepackage{geometry}           % margins
 \usepackage{tikz-cd}            % diagrams
 \usepackage{enumitem}           % managing enumerations
 \usepackage{xparse}             % better commands
 \usepackage{stmaryrd}           % ll/rr brackets
 \usepackage[framemethod=tikz]{mdframed} % frames (props, thms, ...)
+\usetikzlibrary{shadows}        % frame shadows
 
 % Margins
 \geometry{hmargin=1.5cm,vmargin=1.5cm}
@@ -22,6 +24,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%% CUSTOM COMMANDS %%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\textdef}[1]{\textbf{\textit{#1}}}
+\newcommand{\catname}[1]{{\normalfont\textsf{#1}}}
 
 \NewDocumentCommand{\abs}{o O{\cdot}}{\left|#2\right|\IfValueT{#1}{_{#1}}}
 \newcommand{\infabs}[1][\cdot]{\abs[\infty][#1]}
@@ -41,6 +44,8 @@
 \newcommand{\Zmod}[1]{\bZ/#1\bZ}
 \newcommand{\Qbar}{\overline\bQ}
 \newcommand{\adh}[1]{\overline{#1}}
+\newcommand{\red}[1]{{#1}_{\textnormal{réd}}}
+\newcommand{\sat}[1]{{#1}_{\textnormal{sat}}}
 
 \DeclareMathOperator{\Ann}{Ann}
 \DeclareMathOperator{\End}{End}
@@ -48,18 +53,21 @@
 \DeclareMathOperator{\Frac}{Frac}
 \DeclareMathOperator{\Gal}{Gal}
 \DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Spec}{Spec}
 \DeclareMathOperator{\Tr}{Tr}
 \DeclareMathOperator{\adj}{adj}
 \DeclareMathOperator{\hgt}{ht}
 \DeclareMathOperator{\im}{im}
 \DeclareMathOperator{\lcm}{lcm}
 \DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\rad}{rad}
 \DeclareMathOperator{\rk}{rg}
 \DeclareMathOperator{\trdeg}{trdeg}
 \DeclareMathOperator{\vol}{vol}
 
 \newcommand{\fk}[1]{\mathfrak{#1}}
 \newcommand{\fa}{\fk a}
+\newcommand{\fb}{\fk b}
 \newcommand{\fp}{\fk p}
 \newcommand{\fq}{\fk q}
 \newcommand{\fm}{\fk m}
@@ -77,6 +85,7 @@
 \newcommand{\cC}{\mathcal{C}}
 \newcommand{\cD}{\mathcal{D}}
 \newcommand{\cH}{\mathcal{H}}
+\newcommand{\cM}{\mathcal{M}}
 \newcommand{\cN}{\mathcal{N}}
 \newcommand{\cO}{\mathcal{O}}
 \newcommand{\cP}{\mathcal{P}}
@@ -97,14 +106,19 @@
     linewidth=3pt,
     innertopmargin=0pt,
     innerbottommargin=5pt,
+    shadow=true,
+    shadowsize=6pt,
     nobreak=true,
 }
 
 \mdfdefinestyle{prop}{
     hidealllines=true,
+    roundcorner=2pt,
     leftline=true,
-    innertopmargin=0pt,
     linewidth=3pt,
+    innertopmargin=0pt,
+    innerbottommargin=5pt,
+    nobreak=true,
 }
 
 \newtheoremstyle{plain*}{\topsep}{\topsep}{\itshape}{0pt}{}{.}{5pt plus 1pt minus 1pt}{{\bfseries\thmname{#1}}\ifstrempty{#3}{}{ (\thmnote{#3})}}
@@ -112,12 +126,15 @@
 \newtheoremstyle{definition*}{\topsep}{\topsep}{}{0pt}{}{.}{3pt plus 1pt minus 1pt}{{\bfseries\thmname{#1}}\ifstrempty{#3}{}{ (\thmnote{#3})}}
 
 %%%%%%%%%% Abstract Commands
+\newcounter{globalctr}[section]
+\renewcommand{\theglobalctr}{\arabic{section}.\arabic{globalctr}}
+
 \newcommand\propenvmaker[4]{
     \theoremstyle{#1}
     \newmdtheoremenv[
         style=prop,
         linecolor=#2,
-    ]{#3}{#4}[section]
+    ]{#3}[globalctr]{#4}
 }
 
 \newcommand\thmenvmaker[5]{
@@ -126,12 +143,15 @@
         style=theorem,
         linecolor=#2,
         backgroundcolor=#3
-    ]{#4}{#5}[section]
+    ]{#4}[globalctr]{#5}
 }
 
 \newcommand{\newpropenv}[4][definition]{
-    \propenvmaker{#1}{#2}{#3}{#4}
-    \propenvmaker{#1*}{#2}{#3*}{#4}
+    \propenvmaker{#1}{#2}{@#3}{#4}
+    \propenvmaker{#1*}{#2}{@#3*}{#4}
+
+    \newenvironment{#3}{\begin{@#3}}{\end{@#3}\vspace*{-3pt}}
+    \newenvironment{#3*}{\begin{@#3*}}{\end{@#3*}\vspace*{-3pt}}
 }
 
 \newcommand{\newthmenv}[5][plain]{
@@ -153,8 +173,8 @@
 \newthmenv{coral}{red!5}{definition}{Définition}
 
 %%%%%%%%%% Proof-like
-\newenvironment{preuve}{\noindent\textcolor{ocre}{\textit{\textsf{Preuve.}}}}{\qed\medskip}
-\newenvironment{preuve*}{\noindent\textcolor{ocre}{\textit{\textsf{Preuve.}}}}{\medskip}
+\newenvironment{preuve}{\vspace*{-3pt}\noindent\textcolor{ocre}{\textit{\textsf{Preuve.}}}}{\qed\medskip}
+\newenvironment{preuve*}{\vspace*{-3pt}\noindent\textcolor{ocre}{\textit{\textsf{Preuve.}}}}{}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%% MISC %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -183,11 +203,11 @@
 \renewcommand{\contentsname}{Table des matières}
 
 % Changes chapter formatting in the table of contents
-\renewcommand{\cftchapfont}{\LARGE\bfseries\hypersetup{linkcolor=black}}
-\renewcommand{\cftchappagefont}{\LARGE\bfseries\color{black}}
-\renewcommand{\cftchapleader}{\LARGE\bfseries\color{black}\cftdotfill{\cftsecdotsep}}
-\renewcommand{\cftchapdotsep}{6}
-\renewcommand{\cftchapafterpnum}{\vskip10pt}
+% \renewcommand{\cftchapfont}{\LARGE\bfseries\hypersetup{linkcolor=black}}
+% \renewcommand{\cftchappagefont}{\LARGE\bfseries\color{black}}
+% \renewcommand{\cftchapleader}{\LARGE\bfseries\color{black}\cftdotfill{\cftsecdotsep}}
+% \renewcommand{\cftchapdotsep}{6}
+% \renewcommand{\cftchapafterpnum}{\vskip10pt}
 
 % Changes section formatting in the table of contents
 \renewcommand{\cftsecfont}{\Large\bfseries\hypersetup{linkcolor=black}}
@@ -215,7 +235,8 @@
 \chapterfont{\color{black}}
 
 % Changes chapter's title format
-\titleformat{\chapter}[display]{\normalfont\bfseries}{\fontsize{20}{10}\bfseries Chapitre \thechapter.}{5pt}{\centering\fontsize{20}{10}\bfseries}
+\titleformat{\chapter}[display]{\normalfont\bfseries}{}{5pt}{\centering\fontsize{20}{10}\bfseries}
+% \titleformat{\chapter}[display]{\normalfont\bfseries}{\fontsize{20}{10}\bfseries Chapitre \thechapter.}{5pt}{\centering\fontsize{20}{10}\bfseries}
 
 % Avoids page breaks after chapter
 \patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{}{}{}
