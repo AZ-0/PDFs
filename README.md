@@ -2,24 +2,34 @@
 
 Quelques notes de maths ou de cryptographie.
 
-### CRT
 
-Mon tout premier pdf!
-Donne deux preuves du théorème des restes chinois, une algébrique et une élémentaire.
-Décrit deux applications de ce théorème (une formule pour l'indicatrice d'Euler, et les attaques par morphisme).
+## 2024
 
-### Quotients et Sommandes
+### Familles continues d'objets
 
-Ce document répond partiellement à la question de quand est-ce qu'un quotient $M/N$ d'un module s'injecte en tant que sommande de $M$, ie quand est-ce qu'il existe $A$ pour lequel $M\cong A\oplus M/N$.
-Il possède trois sections; la première donne des rappels sur les sommes directe et montre les propriétés universelles de la somme et du produit.
-La seconde introduit le langage des suites exactes puis donne une preuve du lemme de séparation.
+Trace écrite d'un exposé donné au SIMI (un séminaire d'élèves).
+Introduit et présente l'équivalence entre espaces étalés et faisceaux, motivée par une volonté de faire le lien entre famille indexée et espace paramétré par des fibres.
 
-Finalement, la dernière définit un module libre, montre qu'il sépare toute suite exacte courte dont il est le quotient, et utilise cette propriété pour motiver la définition de module projectif.
-Deux caractérisations de la projectivité sont données, puis le document termine par la liberté des sous-modules d'un module libre sur un PID.
 
-### Pell-Fermat
+## 2023
 
-Exposé pour l'université; détermine la structure de groupe des solutions entières à l'équation de Pell-Fermat (PF) $x^2 - dy^2 = 1$.
+### Modules injectifs, Dualité
+
+Rappelle quelques résultats à propos des modules injectifs et divisibles, puis définit le dual $M^*=\mathrm{Hom}(M, Q/R)$ d'un module $M$ finiment généré de torsion sur un PID.
+Cette dualité est employée pour montrer la correspondance image/sous-module.
+Est donnée une définition générale de foncteur dual $D:\mathfrak C\to\mathfrak C$; il est prouvé que conditionné à son existence, tout diagramme $F:J\to\mathfrak C$ admet une limite si et seulement si $DF$ admet une colimite.
+
+### Groupes profinis et Topologie (2023)
+
+Donne quelques rappels sur les groupes topologiques et introduit les groupes profinis.
+La dernière section démontre que si $G$ est un groupe, $(H_i)_{k\in\mathbb N}$ est une chaîne descendante de sous-groupes normaux vérifiant $\bigcap_{\mathbb N} H_i = 1$, alors la limite $L=\varprojlim G/H_i$ coïncide avec la complétion $\tilde G$ de $G$ par les suites de Cauchy, où $G$ est muni de la topologie induite par les cosets des $H_i$.
+
+
+## 2022
+
+### Pell-Fermat (2022)
+
+Exposé au cours de Fondements d'analyse et d'algèbre (L2 maths de Sorbonne Université); détermine la structure de groupe des solutions entières à l'équation de Pell-Fermat (PF) $x^2 - dy^2 = 1$.
 Un point de vue géométrique est tout d'abord abordé, montrant que toute conique non-vide irréductible sur un corps algébriquement clos est rationnelle; on obtient les triplets pythagoriciens ainsi qu'une paramétrisation rationnelle des solutions sur $\mathbb Q$ de PF.
 On motive géométriquement l'introduction de $\mathbb Z[\sqrt d]$ pour étudier PF.
 
@@ -29,18 +39,22 @@ Ce $\gamma$ est employé pour obtenir la structure du groupe des solutions enti�
 
 En annexe, il est montré que si $d$ est un entier possédant un facteur carré, alors $\mathbb Z[\sqrt d]$ n'est pas factoriel.
 
-### Groupes profinis et Topologie
+### Quotients et Sommandes (2022)
 
-Donne quelques rappels sur les groupes topologiques et introduit les groupes profinis.
-La dernière section démontre que si $G$ est un groupe, $(H_i)_{k\in\mathbb N}$ est une chaîne descendante de sous-groupes normaux vérifiant $\bigcap_{\mathbb N} H_i = 1$, alors la limite $L=\varprojlim G/H_i$ coïncide avec la complétion $\tilde G$ de $G$ par les suites de Cauchy, où $G$ est muni de la topologie induite par les cosets des $H_i$.
+Ce document répond partiellement à la question de quand est-ce qu'un quotient $M/N$ d'un module s'injecte en tant que sommande de $M$, ie quand est-ce qu'il existe $A$ pour lequel $M\cong A\oplus M/N$.
+Il possède trois sections; la première donne des rappels sur les sommes directe et montre les propriétés universelles de la somme et du produit.
+La seconde introduit le langage des suites exactes puis donne une preuve du lemme de séparation.
 
-### Modules injectifs, Dualité
+Finalement, la dernière définit un module libre, montre qu'il sépare toute suite exacte courte dont il est le quotient, et utilise cette propriété pour motiver la définition de module projectif.
+Deux caractérisations de la projectivité sont données, puis le document termine par la liberté des sous-modules d'un module libre sur un PID.
 
-Rappelle quelques résultats à propos des modules injectifs et divisibles, puis définit le dual $M^*=\mathrm{Hom}(M, Q/R)$ d'un module $M$ finiment généré de torsion sur un PID.
-Cette dualité est employée pour montrer la correspondance image/sous-module.
-Est donnée une définition générale de foncteur dual $D:\mathfrak C\to\mathfrak C$; il est prouvé que conditionné à son existence, tout diagramme $F:J\to\mathfrak C$ admet une limite si et seulement si $DF$ admet une colimite.
+### CRT (2022)
 
-### Neukirch notes
+Mon tout premier pdf!
+Donne deux preuves du théorème des restes chinois, une algébrique et une élémentaire.
+Décrit deux applications de ce théorème (une formule pour l'indicatrice d'Euler, et les attaques par morphisme).
+
+### Neukirch notes (2022 - Abandonné)
 
 Notes de lecture du livre *Algebraic Number Theory* de Jürgen Neukirch.
 Mises à jour au fur et à mesure de mon avancée dans le livre.
