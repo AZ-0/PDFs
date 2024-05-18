@@ -2,93 +2,114 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%% IMPORTS %%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[utf8]{inputenc}     % good encoding
+\usepackage[T1]{fontenc}        % good encoding
+\usepackage{tgpagella}          % font
 \usepackage{xcolor}             % color definitions
-\usepackage{amsmath, amssymb, amsthm}
+\usepackage{amsmath, amssymb, amsthm} % standard ams packages
 \usepackage{mathtools}          % typesetting in mathmode
 \usepackage[backend=biber,style=alphabetic]{biblatex} % citations
 \usepackage{hyperref}           % refs
-\usepackage{titlesec}           % titles
 \usepackage[titles]{tocloft}    % titles
+\usepackage{titlesec}           % titles
 \usepackage{sectsty}            % sections
 \usepackage{geometry}           % margins
-\usepackage{tikz-cd}            % diagrams
+\usepackage{quiver}             % diagrams
 \usepackage{enumitem}           % managing enumerations
 \usepackage{xparse}             % better commands
 \usepackage{stmaryrd}           % ll/rr brackets
 \usepackage[framemethod=tikz]{mdframed} % frames (props, thms, ...)
 \usetikzlibrary{shadows}        % frame shadows
-
-% Margins
-\geometry{hmargin=1.5cm,vmargin=1.5cm}
+\usepackage{mathrsfs}           % mathscr font
+\usepackage{pgffor}             % foreach macro
+\usepackage{array}              % \newcolumntype macro
+\usepackage{appendix}           % appendcices
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%% CUSTOM COMMANDS %%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\textdef}[1]{\textbf{\textit{#1}}}
-\newcommand{\catname}[1]{{\normalfont\textsf{#1}}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+\newcommand{\ca}[1]{\mathcal{#1}}
+\newcommand{\fk}[1]{\mathfrak{#1}}
+\newcommand{\sr}[1]{\mathscr{#1}}
 
-\NewDocumentCommand{\abs}{o O{\cdot}}{\left|#2\right|\IfValueT{#1}{_{#1}}}
-\newcommand{\infabs}[1][\cdot]{\abs[\infty][#1]}
-\newcommand{\floor}[1]{\left\lfloor{#1}\right\rfloor}
-\NewDocumentCommand{\qty}{m o}{\left\{#1\IfValueT{#2}{\,\middle|\,#2}\right\}}
+\newcommand{\textdef}[1]{\textit{\textbf{#1}}}      % emph on defined word
+\newcommand{\catname}[1]{{\normalfont\textsf{#1}}}  % category name
+\newcommand{\infoname}[1]{{\normalfont\textsf{#1}}} % informatics name
 
-\NewDocumentCommand{\coords}{O{1} m O{n} O{,}}{\left(#2_#1#4 \ldots#4 #2_#3\right)}
-\NewDocumentCommand{\projcoords}{O{1} m O{n}}{\coords[#1]{#2}[#3][:]}
+% The Cech accent (eg. for Chech cohomology)
+\newcommand{\vf}{\check{f}}
+\newcommand{\vH}{\check{H}}
+\newcommand{\vZ}{\check{Z}}
 
-\newcommand{\MatNxN}[1][\lambda]{\begin{pmatrix}
-    #1_{1, 1} &\cdots &#1_{1,n} \\
-    \vdots    &\ddots &\vdots \\
-    #1_{n, 1} &\cdots &#1_{n, n}
-\end{pmatrix}}
+% -- Lowercase: fraktur (no redef \fi \fk)
+\foreach \x in {a,b,c,d,e,f,g,h, j, l,m,n,o,p,q,r,s,t,u,w,x,y,z}{%
+    \expandafter\xdef\csname f\x\endcsname{\noexpand\fk{\x}}%
+}%
 
+% -- Uppercase: blackboard, caligraphy, fraktur, script
+\foreach \x in {A,...,Z}{%
+    \expandafter\xdef\csname b\x\endcsname{\noexpand\bb{\x}}%
+    \expandafter\xdef\csname c\x\endcsname{\noexpand\ca{\x}}%
+    \expandafter\xdef\csname f\x\endcsname{\noexpand\fk{\x}}%
+    \expandafter\xdef\csname s\x\endcsname{\noexpand\sr{\x}}%
+}%
+
+% -- Category names
+\newcommand{\catdash}{\catname{-}}
+\newcommand{\op}{\catname{op}}
+\foreach \x in {%
+    Ab, Aff, Alg, Coh, CRing, FinCov, FinEt, FinSepAlg, FinSet, Grp, LRS, Open, PSh, QCohAlg, Set, Sh%
+}{%
+    \expandafter\xdef\csname cat\x\endcsname{\noexpand\catname{\x}}%
+}%
+
+% -- Math Operators
+\DeclareMathOperator{\hgt}{ht}
+\DeclareMathOperator{\rk}{rg}
+\foreach \x in {%
+    Ann, Aut, Der, End, Frac, Gal, Hom, Spec, Spm, Tr,%
+    adj, gr, im, lcm, ord, rad, rg, supp, trdeg, vol%
+}{%
+    \expandafter\xdef\csname\x\endcsname{\noexpand\operatorname{\x}}%
+}%
+
+% -- Math operators with \limits
+\foreach \x in {%
+    colim%
+}{%
+    \expandafter\xdef\csname\x\endcsname{\noexpand\operatorname*{\x}}%
+}%
+
+% -- Contextual things
 \newcommand{\Nm}{\cN}
 \newcommand{\Zmod}[1]{\bZ/#1\bZ}
 \newcommand{\Qbar}{\overline\bQ}
+\newcommand{\Zbar}{\overline\bZ}
 \newcommand{\adh}[1]{\overline{#1}}
-\newcommand{\red}[1]{{#1}_{\textnormal{réd}}}
-\newcommand{\sat}[1]{{#1}_{\textnormal{sat}}}
+\newcommand{\expa}{{}^a}
+\newcommand{\red}[1]{{#1}_{\catname{red}}}
+\newcommand{\sat}[1]{{#1}_{\catname{sat}}}
+\newcommand{\sep}[1]{{#1}_{\catname{sep}}}
+\newcommand{\et}[1]{{#1}_{\catname{et}}}
+\newcommand{\dd}{\mathrm{d}}
 
-\DeclareMathOperator{\Ann}{Ann}
-\DeclareMathOperator{\End}{End}
-\DeclareMathOperator{\Env}{Env}
-\DeclareMathOperator{\Frac}{Frac}
-\DeclareMathOperator{\Gal}{Gal}
-\DeclareMathOperator{\Hom}{Hom}
-\DeclareMathOperator{\Spec}{Spec}
-\DeclareMathOperator{\Tr}{Tr}
-\DeclareMathOperator{\adj}{adj}
-\DeclareMathOperator{\hgt}{ht}
-\DeclareMathOperator{\im}{im}
-\DeclareMathOperator{\lcm}{lcm}
-\DeclareMathOperator{\ord}{ord}
-\DeclareMathOperator{\rad}{rad}
-\DeclareMathOperator{\rk}{rg}
-\DeclareMathOperator{\trdeg}{trdeg}
-\DeclareMathOperator{\vol}{vol}
+% Citations for stacks project
+\newcommand\citestacks[1]{\cite[\href{https://stacks.math.columbia.edu/tag/#1}{#1}]{stacks-project}}
 
-\newcommand{\fk}[1]{\mathfrak{#1}}
-\newcommand{\fa}{\fk a}
-\newcommand{\fb}{\fk b}
-\newcommand{\fp}{\fk p}
-\newcommand{\fq}{\fk q}
-\newcommand{\fm}{\fk m}
-
-\newcommand{\bA}{\mathbb{A}}
-\newcommand{\bC}{\mathbb{C}}
-\newcommand{\bF}{\mathbb{F}}
-\newcommand{\bN}{\mathbb{N}}
-\newcommand{\bP}{\mathbb{P}}
-\newcommand{\bQ}{\mathbb{Q}}
-\newcommand{\bR}{\mathbb{R}}
-\newcommand{\bZ}{\mathbb{Z}}
-
-\newcommand{\cB}{\mathcal{B}}
-\newcommand{\cC}{\mathcal{C}}
-\newcommand{\cD}{\mathcal{D}}
-\newcommand{\cH}{\mathcal{H}}
-\newcommand{\cM}{\mathcal{M}}
-\newcommand{\cN}{\mathcal{N}}
-\newcommand{\cO}{\mathcal{O}}
-\newcommand{\cP}{\mathcal{P}}
+% Set
+\NewDocumentCommand{\qty}{m o}{\left\{#1\IfValueT{#2}{\,\middle|\,#2}\right\}}
+% Floor
+\newcommand{\floor}[1]{\left\lfloor{#1}\right\rfloor}
+% Absolute value
+\newcommand{\abs}[1][\cdot]{\left|#1\right|}
+\newcommand{\infabs}[1][\cdot]{\abs[#1]_\infty}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+% Coords
+\NewDocumentCommand{\coords}{O{1} m O{n} O{,}}{\left(#2_#1#4 \ldots#4 #2_#3\right)}
+\NewDocumentCommand{\projcoords}{O{0} m O{n}}{\coords[#1]{#2}[#3][:]}
+% Math columns in tabular
+\newcolumntype{L}{>{$}l<{$}}
+\newcolumntype{C}{>{$}c<{$}}
+\newcolumntype{R}{>{$}r<{$}}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%% COLORS %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -134,7 +155,7 @@
     \newmdtheoremenv[
         style=prop,
         linecolor=#2,
-    ]{#3}[globalctr]{#4}
+    ]{#3}[globalctr]{\textbf{#4}}
 }
 
 \newcommand\thmenvmaker[5]{
@@ -142,8 +163,8 @@
     \newmdtheoremenv[
         style=theorem,
         linecolor=#2,
-        backgroundcolor=#3
-    ]{#4}[globalctr]{#5}
+        backgroundcolor=#3,
+    ]{#4}[globalctr]{\textbf{#5}}
 }
 
 \newcommand{\newpropenv}[4][definition]{
@@ -173,16 +194,66 @@
 \newthmenv{coral}{red!5}{definition}{Définition}
 
 %%%%%%%%%% Proof-like
-\newenvironment{preuve}{\vspace*{-3pt}\noindent\textcolor{ocre}{\textit{\textsf{Preuve.}}}}{\qed\medskip}
-\newenvironment{preuve*}{\vspace*{-3pt}\noindent\textcolor{ocre}{\textit{\textsf{Preuve.}}}}{}
+\newenvironment{preuve}[1][\unskip]{%
+    \vspace*{-3pt}\noindent%
+    \textcolor{gray}{\textit{\textsf{Preuve}}}%
+    { #1}%
+    \textcolor{gray}{\textit{\textsf{.}}}
+}{\qed\medskip}
+\newenvironment{preuve*}[1][\unskip]{%
+    \vspace*{-3pt}\noindent%
+    \textcolor{gray}{\textit{\textsf{Preuve}}}%
+    { #1}%
+    \textcolor{gray}{\textit{\textsf{.}}}
+}{}
+
+
+
+%%%%%%%%%%%% Table of contents %%%%%%%%%%%%
+
+% Change TOC name
+\renewcommand{\contentsname}{Table des matières}
+
+\makeatletter%
+\@ifclassloaded{report}%
+  {%
+    % Changes chapter formatting in the table of contents
+    \renewcommand{\cftchapfont}{\LARGE\bfseries\hypersetup{linkcolor=black!90}\sffamily}
+    \renewcommand{\cftchappagefont}{\LARGE\bfseries\sffamily}
+    \renewcommand{\cftchapleader}{\bfseries\hfill}
+    \renewcommand{\cftchapdotsep}{2}
+    \renewcommand{\cftbeforechapskip}{\baselineskip}
+    \renewcommand{\cftchapafterpnum}{\vskip5pt}
+  }%
+  {}%
+\makeatother%
+
+% Changes section formatting in the table of contents
+\renewcommand{\cftsecfont}{\Large\bfseries\hypersetup{linkcolor=black!70}\sffamily}
+\renewcommand{\cftsecpagefont}{\Large\bfseries\sffamily}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftchapdotsep}}
+\renewcommand{\cftsecafterpnum}{\vskip5pt}
+
+% Changes subsection formatting in the table of contents
+\renewcommand{\cftsubsecfont}{\large}
+\renewcommand{\cftsubsecpagefont}{\large}
+\renewcommand{\cftsubsecafterpnum}{\vskip5pt}
+
+% Changes subsection formatting in the table of contents
+\renewcommand{\cftsubsubsecfont}{\medium}
+\renewcommand{\cftsubsubsecpagefont}{\medium}
+\renewcommand{\cftsubsubsecafterpnum}{\vskip5pt}
+
+% Avoids indentations in the TOC
+% \setlength{\cftsecindent}{0pt}
+% \setlength{\cftsubsecindent}{0pt}
+% \setlength{\cftsubsubsecindent}{5pt}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%% MISC %%%%%%%%%%%%%%%%%%%%%%%%%%
-% Changes default font
-% \renewcommand\familydefault{\sfdefault}
-
-% Makes every math displayed in display style 
-% \everymath{\displaystyle}
+% Margins
+\geometry{hmargin=2cm,vmargin=2cm}
 
 % Alineas at the beginning of a new paragraph 
 \setlength{\parindent}{0.4cm}
@@ -196,47 +267,15 @@
     urlcolor=ocre
 }
 
-
-%%%%%%%%%%%% Table of contents %%%%%%%%%%%%
-
-% Change TOC name
-\renewcommand{\contentsname}{Table des matières}
-
-% Changes chapter formatting in the table of contents
-% \renewcommand{\cftchapfont}{\LARGE\bfseries\hypersetup{linkcolor=black}}
-% \renewcommand{\cftchappagefont}{\LARGE\bfseries\color{black}}
-% \renewcommand{\cftchapleader}{\LARGE\bfseries\color{black}\cftdotfill{\cftsecdotsep}}
-% \renewcommand{\cftchapdotsep}{6}
-% \renewcommand{\cftchapafterpnum}{\vskip10pt}
-
-% Changes section formatting in the table of contents
-\renewcommand{\cftsecfont}{\Large\bfseries\hypersetup{linkcolor=black}}
-\renewcommand{\cftsecpagefont}{\Large\bfseries}
-\renewcommand{\cftsecleader}{\hfill}
-\renewcommand{\cftsecdotsep}{6}
-\renewcommand{\cftsecafterpnum}{\vskip10pt}
-
-% Changes subsection formatting in the table of contents
-\renewcommand{\cftsubsecafterpnum}{\vskip10pt}
-\renewcommand{\cftsubsecfont}{\large}
-\renewcommand{\cftsubsecpagefont}{\large}
-
-% Changes subsection formatting in the table of contents
-\renewcommand{\cftsubsubsecafterpnum}{\vskip10pt}
-\renewcommand{\cftsubsubsecfont}{\medium}
-\renewcommand{\cftsubsubsecpagefont}{\medium}
-
-% Avoids indentations in the TOC
-% \setlength{\cftsecindent}{0pt}
-\setlength{\cftsubsecindent}{0pt}
-\setlength{\cftsubsubsecindent}{5pt}
-
-%%%%%%%%%%%% Chapter, section.. formating %%%%%%%%%%%%
-\chapterfont{\color{black}}
-
 % Changes chapter's title format
-\titleformat{\chapter}[display]{\normalfont\bfseries}{}{5pt}{\centering\fontsize{20}{10}\bfseries}
-% \titleformat{\chapter}[display]{\normalfont\bfseries}{\fontsize{20}{10}\bfseries Chapitre \thechapter.}{5pt}{\centering\fontsize{20}{10}\bfseries}
+\renewcommand\thechapter{\arabic{chapter}}
+\titleformat{\chapter}[display]{\centering\bfseries\Huge}{}{5pt}{Chapitre \thechapter \: }
+\titleformat{name=\chapter,numberless}[display]{\centering\bfseries\huge}{}{5pt}{}
 
-% Avoids page breaks after chapter
-\patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{}{}{}
+% Appendices
+\renewcommand{\appendixpagename}{Annexes}
+\renewcommand{\appendixtocname}{Annexes}
+
+\newcommand\setupappendixmode{
+    \renewcommand\thechapter{\Alph{chapter}}
+}
